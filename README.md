@@ -7,7 +7,7 @@
 
 インストールしたいディレクトリまで行って下記のコマンドを実行
 
-    git clone "URL"
+    git clone "https://github.com/TsubasaTommy/dogorcat.git"
     cd dogorcat
     sail up -d
     sail artisan migrate
