@@ -6,3 +6,12 @@ pillow
 fastapi[all]
 uvicorn[standard]
 requests
+fastapi
+os
+cv2
+matplotlib.pyplot
+tensorflow.keras.utils
+tensorflow.keras.layers
+tensorflow.keras.applications.vgg16
+tensorflow.keras.models
+tensorflow.keras
