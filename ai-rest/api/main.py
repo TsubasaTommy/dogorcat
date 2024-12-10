@@ -10,6 +10,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
+ main.py-library
 
     return {"message": "野獣先輩"}
 
@@ -21,3 +22,6 @@ if image is None:
     print("画像を読み込めません")
     exit()
 
+
+   
+ main
