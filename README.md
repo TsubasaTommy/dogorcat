@@ -33,3 +33,8 @@ main -> feature/**1** (ブランチを発行)
 次に機能を作り終えたら十分にバグがないかを確認して、feature->developにプルリクエストを発行してください
 
 次にdevelopで動作確認して develop->mainにマージされます。
+
+## libraryのインストール
+・Python 3.10.-　
+・dogorcatのディレクトリで
+    pip install tensorflow numpy opencv-python matplotlib   を実行
