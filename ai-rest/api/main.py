@@ -53,3 +53,4 @@ def judge_type(image):
     except Exception as e:
         print(e)
         return -1
+    
