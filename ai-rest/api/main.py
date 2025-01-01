@@ -1,27 +1,27 @@
 #ライブラリ
-from fastapi import FastAPI
-import tensorflow as tf
-import numpy as np
-import cv2
-import matplotlib.pyplot as plt
+from fastapi import FastAPI,Request
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# CORS の設定
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # 許可するオリジン
+    allow_credentials=True,
+    allow_methods=["*"],  # 許可する HTTP メソッド
+    allow_headers=["*"],  # 許可する HTTP ヘッダー
+)
 
-@app.get("/")
-async def root():
- main.py-library
+@app.post("/")
+async def root(request: Request):
+    
+    # blob形式でimageを受け取る
+    image = await request.body()
+    
+    #レスポンス 1:dog 2:cat 3:other
+    return {"type": judge_type(image)}
 
-    return {"message": "野獣先輩"}
-
-image_path = ""
-image_size = 100
-image = cv2.imread(image_path)
-
-if image is None:
-    print("画像を読み込めません")
-    exit()
-
-
-   
- main
+def judge_type(image):
+    #ここにAIの処理を書く
+    return 1
