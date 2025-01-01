@@ -1,9 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,reactive } from 'vue'
 
 const image = ref(null)
 const imageUrl = ref(null)
 const loading = ref(false)
+const result = reactive({
+  type: 0,
+  dog: 0.0,
+  cat: 0.0,
+})
 const api = import.meta.env.VITE_API_URL
 
 function handleFileChange(event) {
@@ -24,21 +29,10 @@ async function postImage() {
       method: 'POST',
       body: image.value
     });
-    const result = await response.json();
-    switch (result.type) {
-      case 1:
-        alert('犬🐕です');
-        break;
-      case 2:
-        alert('猫🐈です');
-        break;
-      case 3:
-        alert('犬🐕と猫🐈のどちらでもないです');
-        break;
-      default:
-        alert('判定できませんでした');
-        break;
-    }
+    const json = await response.json();
+    result.type = json.type;
+    result.dog = json.dog;
+    result.cat = json.cat;
   } catch (error) {
     console.error(error);
     alert('Failed to upload image');
@@ -64,6 +58,12 @@ async function postImage() {
         <button :disabled="loading" type="submit" class="upload-button">{{loading?"判定中...":"判定する"}}</button>
       </form>
     </div>
+    <div v-show="!loading && result.cat" class="card result">
+      <h2>判定結果</h2>
+      <p>{{ result.type ? "犬🐕":"猫🐈"}}</p>
+      <p>猫確率:{{ Math.trunc(result.cat * 100) }} % <br>
+         犬確率:{{ Math.trunc(result.dog * 100) }} %</p>
+    </div>
   </main>
 </template>
 
@@ -71,6 +71,7 @@ async function postImage() {
 /* コンテナ */
 .container {
   display: flex;
+  flex-direction: column; /* 縦方向に配置 */
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -82,6 +83,7 @@ async function postImage() {
   color: #333;
   border-radius: 12px;
   padding: 30px;
+  margin-top: 30px;
   max-width: 400px;
   width: 100%;
   text-align: center;
@@ -167,4 +169,10 @@ async function postImage() {
 .upload-button:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-</style>
+.result{
+  transition: transform 0.3s ease; /* アニメーションの時間を0.3秒に設定 */
+}
+.result:hover{
+  transform: scale(1.2); /* 回転と拡大 */
+}
+  </style>
