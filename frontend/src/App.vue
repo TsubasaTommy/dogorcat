@@ -61,38 +61,13 @@ async function postImage() {
           <input v-on:change="handleFileChange" type="file" name="file" accept="image/*" required />
           <span>画像を選択</span>
         </label>
-        <button type="submit" class="upload-button">判定する</button>
+        <button :disabled="loading" type="submit" class="upload-button">判定する</button>
       </form>
     </div>
   </main>
 </template>
 
 <style scoped>
-/* 全体の背景 */
-body {
-  background: linear-gradient(-45deg, #6e8efb, #a777e3, #f0f4ff, #d8e4ff);
-  background-size: 400% 400%;
-  animation: gradient-animation 15s ease infinite;  font-family: 'Roboto', sans-serif;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #fff;
-}
-@keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-
 /* コンテナ */
 .container {
   display: flex;
