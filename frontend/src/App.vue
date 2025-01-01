@@ -173,6 +173,6 @@ async function postImage() {
   transition: transform 0.3s ease; /* アニメーションの時間を0.3秒に設定 */
 }
 .result:hover{
-  transform: scale(1.2); /* 回転と拡大 */
+  transform: scale(1.2); /* 拡大 */
 }
   </style>
