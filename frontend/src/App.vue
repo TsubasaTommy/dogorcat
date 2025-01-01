@@ -53,7 +53,7 @@ async function postImage() {
     <div class="card">
       <h1>Dog or Cat</h1>
       <p>AIがアップロードされた画像を猫🐈か犬🐕か判定します</p>
-      <div v-if="image" class="image-preview">
+      <div v-show="image" class="image-preview">
         <img :src="imageUrl" alt="Uploaded Image" />
       </div>
       <form @submit.prevent="postImage" method="post" enctype="multipart/form-data" class="form">
@@ -61,7 +61,7 @@ async function postImage() {
           <input v-on:change="handleFileChange" type="file" name="file" accept="image/*" required />
           <span>画像を選択</span>
         </label>
-        <button :disabled="loading" type="submit" class="upload-button">判定する</button>
+        <button :disabled="loading" type="submit" class="upload-button">{{loading?"判定中...":"判定する"}}</button>
       </form>
     </div>
   </main>
