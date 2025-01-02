@@ -25,8 +25,8 @@ async def root(request: Request):
     # blob形式でimageを受け取る
     image = await request.body()
     
-    #レスポンス 1:dog 2:cat 3:other
-    return {"type": judge_type(image)}
+    #レスポンス 0:cat 1:dog
+    return judge_type(image)
 
 def judge_type(image):
     #ここにAIの処理を書く
@@ -44,12 +44,16 @@ def judge_type(image):
         # モデルで推論
         predictions = model.predict(img_array)
         predicted_class = np.argmax(predictions, axis=1)[0]
-        
+        # 犬と猫の確率を取得
+        dog_probability = predictions[0][1]  # 犬の確率 (例: 1 が犬の場合)
+        cat_probability = predictions[0][0]  # 猫の確率 (例: 0 が猫の場合)
+
         # 犬か猫の判定 (モデルのクラス定義に応じて調整)
-        if predicted_class == 0:
-            return 2  # 猫
-        elif predicted_class == 1:
-            return 1  # 犬
+        return {
+            "type":int(predicted_class),
+            "dog": float(dog_probability),
+            "cat": float(cat_probability),
+        }
     except Exception as e:
         print(e)
         return -1
