@@ -8,7 +8,7 @@ from PIL import Image
 import tensorflow as tf
 
 app = FastAPI()
-model = tf.keras.models.load_model("/api/model/my_model.h5")
+model = tf.keras.models.load_model("/app/model/my_model.h5")
 
 # CORS の設定
 app.add_middleware(
@@ -21,7 +21,6 @@ app.add_middleware(
 
 @app.post("/")
 async def root(request: Request):
-    
     # blob形式でimageを受け取る
     image = await request.body()
     
