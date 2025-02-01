@@ -8,7 +8,7 @@ from PIL import Image
 import tensorflow as tf
 
 app = FastAPI()
-model = tf.keras.models.load_model("/app/model/dogorcat.h5")
+model = tf.keras.models.load_model("/api/model/my_model.h5")
 
 # CORS の設定
 app.add_middleware(
