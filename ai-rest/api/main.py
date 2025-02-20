@@ -1,6 +1,6 @@
 #ライブラリ
 import os
-from fastapi import FastAPI,Request
+from fastapi import FastAPI,Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 import io
 import numpy as np
@@ -13,11 +13,19 @@ model = tf.keras.models.load_model("/app/model/my_model.h5")
 # CORS の設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # 許可するオリジン
+    allow_origins=["http://127.0.0.1:5174"],
     allow_credentials=True,
     allow_methods=["*"],  # 許可する HTTP メソッド
     allow_headers=["*"],  # 許可する HTTP ヘッダー
 )
+
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(rest_of_path: str):
+    response = Response()
+    response.headers["Access-Control-Allow-Origin"] = "http://127.0.0.1:5174"
+    response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    return response
 
 @app.post("/")
 async def root(request: Request):
@@ -56,4 +64,3 @@ def judge_type(image):
     except Exception as e:
         print(e)
         return -1
-    
