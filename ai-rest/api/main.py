@@ -13,7 +13,12 @@ model = tf.keras.models.load_model("/app/model/my_model.h5")
 # CORS の設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173", "http://127.0.0.1:5174"],
+    allow_origins=[
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",  # 追加
+        "http://127.0.0.1:5174",
+        "http://localhost:5174"   # 追加
+    ],
     allow_credentials=True,
     allow_methods=["*"],  # 許可する HTTP メソッド
     allow_headers=["*"],  # 許可する HTTP ヘッダー
