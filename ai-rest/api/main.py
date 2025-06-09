@@ -43,11 +43,13 @@ logger.info(f"Frontend URL configured as: {FRONTEND_URL}")
 
 app.add_middleware(
     CORSMiddleware,
+
     allow_origins=[FRONTEND_URL],
     allow_credentials=False,
     allow_methods=["POST", "GET", "OPTIONS"],
     allow_headers=["*"],
     expose_headers=["*"]
+
 )
 
 @app.options("/{rest_of_path:path}")
