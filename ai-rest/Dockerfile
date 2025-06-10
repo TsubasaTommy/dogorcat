@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.11-slim
 
 # 作業ディレクトリの設定
 WORKDIR /app

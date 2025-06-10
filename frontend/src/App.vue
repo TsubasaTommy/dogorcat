@@ -9,7 +9,8 @@ const result = reactive({
   dog: 0.0,
   cat: 0.0,
 })
-const api = import.meta.env.VITE_API_URL
+const api = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+console.log('API URL:', api) // APIのURLをコンソールに出力
 
 function handleFileChange(event) {
   image.value = event.target.files[0];
@@ -25,17 +26,35 @@ function handleFileChange(event) {
 async function postImage() {
   loading.value = true;
   try {
+    console.log('Uploading image to:', api)
+    const formData = new FormData();
+    formData.append('file', image.value);
+    
     const response = await fetch(api, {
       method: 'POST',
-      body: image.value
+      headers: {
+        'Accept': 'application/json',
+      },
+      mode: 'cors',
+      body: formData
     });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
     const json = await response.json();
+    if (json.error) {
+      throw new Error(json.error);
+    }
+    
     result.type = json.type;
     result.dog = json.dog;
     result.cat = json.cat;
   } catch (error) {
-    console.error(error);
-    alert('Failed to upload image');
+    console.error('Error:', error);
+    alert(`画像のアップロードに失敗しました: ${error.message}`);
   } finally {
     loading.value = false;
   }
@@ -61,8 +80,8 @@ async function postImage() {
     <div v-show="!loading && result.cat" class="card result">
       <h2>判定結果</h2>
       <p>{{ result.type ? "犬🐕":"猫🐈"}}</p>
-      <p>猫確率:{{ Math.trunc(result.cat * 100) }} % <br>
-         犬確率:{{ Math.trunc(result.dog * 100) }} %</p>
+      <p>猫確率:{{ (result.cat * 100).toFixed(1) }} % <br>
+         犬確率:{{ (result.dog * 100).toFixed(1) }} %</p>
     </div>
   </main>
 </template>
