@@ -43,13 +43,11 @@ logger.info(f"Frontend URL configured as: {FRONTEND_URL}")
 
 app.add_middleware(
     CORSMiddleware,
-
     allow_origins=[FRONTEND_URL],
     allow_credentials=False,
     allow_methods=["POST", "GET", "OPTIONS"],
-    allow_headers=["*"],
-    expose_headers=["*"]
-
+    allow_headers=["Content-Type", "Accept"],
+    expose_headers=["Content-Type"]
 )
 
 @app.options("/{rest_of_path:path}")
@@ -74,7 +72,7 @@ async def root(file: UploadFile = File(...)):
         return result
     except Exception as e:
         logger.error(f"Error in root: {str(e)}")
-        return {"error": str(e)}
+        return {"error": "An internal server error occurred"}
 
 def judge_type(image):
     start_time = time.time()
@@ -106,4 +104,4 @@ def judge_type(image):
         return result
     except Exception as e:
         print("judge_type エラー:", e)
-        return {"error": str(e)}
+        return {"error": "An error occurred while processing the image"}
